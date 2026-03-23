@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Metronome App Starter</title>
+    <link rel="stylesheet" href="static/css/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Metronome App</h1>
+      <p>
+        Starter version using the Web Audio API with tempo, meter, subdivision,
+        accent, and pulse display.
+      </p>
+
+      <section class="grid">
+        <div class="control">
+          <label for="tempo"
+            >Tempo <span class="value" id="tempoValue">120 BPM</span></label
+          >
+          <input id="tempo" type="range" min="10" max="240" value="120" />
+        </div>
+
+        <div class="control">
+          <label for="beatsPerMeasure">Beats per measure</label>
+          <select id="beatsPerMeasure">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="subdivision">Subdivision</label>
+          <select id="subdivision">
+            <option value="1">Quarter notes</option>
+            <option value="2">Eighth notes</option>
+            <option value="3">Triplets</option>
+            <option value="4">Sixteenth notes</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="accentFirstBeat">Accent pattern</label>
+          <select id="accentFirstBeat">
+            <option value="first" selected>Accent first beat</option>
+            <option value="all">All equal</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="transport">
+        <button id="startBtn">Start</button>
+        <button id="stopBtn" class="stop">Stop</button>
+        <button id="tapBtn" class="secondary">Tap Tempo</button>
+      </section>
+
+      <section id="pulse" class="pulse"></section>
+      <div class="status" id="status">Stopped</div>
+    </main>
+
+    <script src="static/js/app.js"></script>
+  </body>
+</html>
