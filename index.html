@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
   <head>
     <title>Metronome App Starter</title>
@@ -7,21 +6,16 @@
   <body>
     <main class="app">
       <h1>Metronome App</h1>
-      <h2>Web Audio API Starter</h2>
-      <p>
-        Starter version using the Web Audio API with tempo, meter, subdivision,
-        accent, and pulse display.
-      </p>
 
       <section class="grid">
         <div class="control">
           <label for="tempo"
             >Tempo <span class="value" id="tempoValue">120 BPM</span></label
           >
-          <input id="tempo" type="range" min="10" max="240" value="120" />
+          <input id="tempo" type="range" min="10" max="300" value="120" />
         </div>
 
-        <div class="control">
+        <!-- <div class="control">
           <label for="beatsPerMeasure">Beats per measure</label>
           <select id="beatsPerMeasure">
             <option value="2">2</option>
@@ -31,9 +25,9 @@
             <option value="6">6</option>
             <option value="7">7</option>
           </select>
-        </div>
+        </div> -->
 
-        <div class="control">
+        <!-- <div class="control">
           <label for="subdivision">Subdivision</label>
           <select id="subdivision">
             <option value="1">Quarter notes</option>
@@ -41,18 +35,18 @@
             <option value="3">Triplets</option>
             <option value="4">Sixteenth notes</option>
           </select>
-        </div>
+        </div> -->
 
-        <div class="control">
+        <!-- <div class="control">
           <label for="accentFirstBeat">Accent pattern</label>
           <select id="accentFirstBeat">
             <option value="first" selected>Accent first beat</option>
             <option value="all">All equal</option>
           </select>
-        </div>
+        </div> -->
       </section>
 
-      <section class="transport">
+      <section class="buttons">
         <button id="startBtn">Start</button>
         <button id="stopBtn" class="stop">Stop</button>
         <button id="tapBtn" class="secondary">Tap Tempo</button>
