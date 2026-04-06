@@ -28,6 +28,9 @@ function runMetronome () {
     clearInterval(metronomeInterval);
     secondsPerBeat = 60 / tempoSlider.value;
      nextNoteTime = audioContext.currentTime;
+
+     animatePendulum();
+     bob.classList.add("moving");
     scheduleBeep();
     metronomeInterval = setInterval(scheduleBeep, secondsPerBeat * 1000);}
 
@@ -73,6 +76,7 @@ stopBtn.addEventListener("click", function () {
   console.log("Stop button clicked");
   clearInterval(metronomeInterval);
   isPlaying = false;  
+  bob.classList.remove("moving");
   status.textContent = "Stopped";
   // stop the metronome here
 });
@@ -111,3 +115,8 @@ const averageInterval = sum / intervals.length;
     
 });
 
+const bob = document.getElementById("bob");
+
+function animatePendulum() {
+  bob.style.animationDuration = secondsPerBeat  + "s";
+};
