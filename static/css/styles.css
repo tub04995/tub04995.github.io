@@ -15,7 +15,7 @@
   width: min(92vw, 700px);
   margin: 0 auto;
   padding: 24px;
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
@@ -116,4 +116,9 @@
   to {
     left: calc(100% - 28px);
   }
+}
+
+.bob.flash {
+  background: #ff4d4d;
+  box-shadow: 0 0 16px rgba(255, 77, 77, 0.8);
 }

@@ -50,6 +50,7 @@ function Beep(time) {
 function scheduleBeep() {
   // Implementation for scheduling beep
   Beep(nextNoteTime);
+  flashBob();
   nextNoteTime += secondsPerBeat;
 }
 
@@ -120,3 +121,11 @@ const bob = document.getElementById("bob");
 function animatePendulum() {
   bob.style.animationDuration = secondsPerBeat  + "s";
 };
+
+function flashBob(time) {
+  bob.classList.add("flash");
+
+  setTimeout(function () {
+    bob.classList.remove("flash");
+  }, 100);
+}
