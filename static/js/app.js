@@ -29,8 +29,8 @@ function runMetronome () {
     secondsPerBeat = 60 / tempoSlider.value;
      nextNoteTime = audioContext.currentTime;
 
-    //  animatePendulum();
-    //  bob.classList.add("moving");
+     animatePendulum();
+     bob.classList.add("moving");
     scheduleBeep();
     metronomeInterval = setInterval(scheduleBeep, secondsPerBeat * 1000);}
 
@@ -50,7 +50,7 @@ function Beep(time) {
 function scheduleBeep() {
   // Implementation for scheduling beep
   Beep(nextNoteTime);
-  // flashBob();
+  flashBob();
   nextNoteTime += secondsPerBeat;
 }
 
@@ -116,16 +116,16 @@ const averageInterval = sum / intervals.length;
     
 });
 
-// const bob = document.getElementById("bob");
+const bob = document.getElementById("bob");
 
-// function animatePendulum() {
-//   bob.style.animationDuration = secondsPerBeat  + "s";
-// };
+function animatePendulum() {
+  bob.style.animationDuration = secondsPerBeat  + "s";
+};
 
-// function flashBob(time) {
-//   bob.classList.add("flash");
+function flashBob(time) {
+  bob.classList.add("flash");
 
-//   setTimeout(function () {
-//     bob.classList.remove("flash");
-//   }, 100);
-// }
+  setTimeout(function () {
+    bob.classList.remove("flash");
+  }, 100);
+}
