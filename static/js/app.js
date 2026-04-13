@@ -4,6 +4,7 @@ let secondsPerBeat;
 let nextNoteTime;
 let metronomeInterval;
 const tapTimes = [];
+let direction = 1; // 1 for right, -1 for left
 
 const tempoSlider = document.getElementById("tempo");
 const tempoValue = document.getElementById("tempoValue");
@@ -13,7 +14,7 @@ tempoSlider.addEventListener("input", function () {
   tempoValue.textContent = tempoSlider.value + " BPM";
 
   // secondsPerBeat = 60 / tempoSlider.value;
-  console.log(secondsPerBeat);    
+  console.log(secondsPerBeat);
 
   if (isPlaying) {
     // clearInterval(metronomeInterval);
@@ -24,15 +25,16 @@ tempoSlider.addEventListener("input", function () {
   }
 });
 
-function runMetronome () {
-    clearInterval(metronomeInterval);
-    secondsPerBeat = 60 / tempoSlider.value;
-     nextNoteTime = audioContext.currentTime;
+function runMetronome() {
+  clearInterval(metronomeInterval);
+  secondsPerBeat = 60 / tempoSlider.value;
+  nextNoteTime = audioContext.currentTime;
 
-     animatePendulum();
-     bob.classList.add("moving");
-    scheduleBeep();
-    metronomeInterval = setInterval(scheduleBeep, secondsPerBeat * 1000);}
+  // animatePendulum();
+  // bob.classList.add("moving");
+  scheduleBeep();
+  metronomeInterval = setInterval(scheduleBeep, secondsPerBeat * 1000);
+}
 
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -50,14 +52,17 @@ function Beep(time) {
 function scheduleBeep() {
   // Implementation for scheduling beep
   Beep(nextNoteTime);
-  flashBob();
+  flashBob(nextNoteTime);
+  moveBob(nextNoteTime);
   nextNoteTime += secondsPerBeat;
 }
 
 startBtn.addEventListener("click", function () {
   // create audio context here
   console.log("Start button clicked");
-  if(isPlaying) {return;}
+  if (isPlaying) {
+    return;
+  }
   isPlaying = true;
   audioContext.resume();
   // secondsPerBeat = 60 / tempoSlider.value;
@@ -76,7 +81,7 @@ startBtn.addEventListener("click", function () {
 stopBtn.addEventListener("click", function () {
   console.log("Stop button clicked");
   clearInterval(metronomeInterval);
-  isPlaying = false;  
+  isPlaying = false;
   bob.classList.remove("moving");
   status.textContent = "Stopped";
   // stop the metronome here
@@ -88,44 +93,63 @@ tapBtn.addEventListener("click", function () {
   const currentTime = audioContext.currentTime;
 
   if (tapTimes.length > 0 && currentTime - tapTimes[tapTimes.length - 1] > 6) {
-    tapTimes.length = 0;}
+    tapTimes.length = 0;
+  }
 
-      tapTimes.push(currentTime); 
-
+  tapTimes.push(currentTime);
 
   if (tapTimes.length > 1) {
-    const intervals = []; 
+    const intervals = [];
     for (let i = 1; i < tapTimes.length; i++) {
       intervals.push(tapTimes[i] - tapTimes[i - 1]);
     }
     let sum = 0;
 
-for (let i = 0; i < intervals.length; i++) {
-  sum += intervals[i];
-}
+    for (let i = 0; i < intervals.length; i++) {
+      sum += intervals[i];
+    }
 
-const averageInterval = sum / intervals.length;
+    const averageInterval = sum / intervals.length;
     // const averageInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
     const newTempo = 60 / averageInterval;
     tempoSlider.value = newTempo;
     tempoValue.textContent = Math.round(newTempo) + " BPM";
     if (isPlaying) {
-  runMetronome();
-}
+      runMetronome();
+    }
   }
-    
 });
 
 const bob = document.getElementById("bob");
 
-function animatePendulum() {
-  bob.style.animationDuration = secondsPerBeat  + "s";
-};
+// function animatePendulum() {
+//   bob.style.animationDuration = secondsPerBeat + "s";
+// }
+function moveBob(time) {
+  const delay = Math.max(0, (time - audioContext.currentTime) * 1000);
+  const distance = 252;
+
+  setTimeout(() => {
+    bob.style.transitionDuration = secondsPerBeat + "s";
+
+    if (direction === 1) {
+      bob.style.transform = `translate(${distance}px, -50%)`;
+      direction = -1;
+    } else {
+      bob.style.transform = `translate(0px, -50%)`;
+      direction = 1;
+    }
+  }, delay);
+}
 
 function flashBob(time) {
-  bob.classList.add("flash");
+  const delay = Math.max(0, time - audioContext.currentTime) * 1000;
 
   setTimeout(function () {
-    bob.classList.remove("flash");
-  }, 100);
+    bob.classList.add("flash");
+
+    setTimeout(function () {
+      bob.classList.remove("flash");
+    }, 100);
+  }, delay);
 }
