@@ -135,6 +135,10 @@ tapBtn.addEventListener("click", function () {
 
   tapTimes.push(currentTime);
 
+  if (tapTimes.length > 4) {
+    tapTimes.shift();
+  }
+
   if (tapTimes.length > 1) {
     const intervals = [];
     for (let i = 1; i < tapTimes.length; i++) {
