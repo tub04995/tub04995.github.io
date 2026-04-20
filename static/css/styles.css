@@ -11,6 +11,14 @@ body {
   padding: 20px;
 }
 
+button {
+  /* width: min-size, preferred-size, max-size */
+  width: clamp(100px, 20vw, 300px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
 .app {
   width: min(92vw, 700px);
   margin: 0 auto;

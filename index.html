@@ -52,10 +52,17 @@
         </div> -->
       </section>
 
+      <div class="control">
+        <span id="muteIcon" class="speaker-icon">&#128266;</span>
+        <label for="volume">
+          <span class="value" id="volumeValue">80%</span>
+        </label>
+
+        <input id="volume" type="range" min="0" max="100" value="80" />
+      </div>
+
       <section class="buttons">
         <button id="toggleBtn">Start</button>
-        <!-- <button id="stopBtn" class="stop">Stop</button> -->
-        <button id="tapBtn" class="secondary">Tap Tempo</button>
       </section>
 
       <section id="pulse" class="pulse"></section>
