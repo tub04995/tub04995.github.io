@@ -204,6 +204,7 @@ document.body.addEventListener("click", function (event) {
   if (
     event.target.closest("#toggleBtn") ||
     event.target.closest("#tempo") ||
+    event.target.closest("#volume") ||
     event.target.closest("label") ||
     event.target.closest("#muteIcon")
   ) {
