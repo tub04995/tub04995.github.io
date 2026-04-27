@@ -97,10 +97,14 @@ button {
 
 .pendulum-area {
   position: absolute;
-  width: 40%;
+
+  width: min(40vw, 40vh); /* same base as button */
+  max-width: 100%; /* never exceed button */
+
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
   margin: 0;
   pointer-events: none;
   z-index: 3;
@@ -233,4 +237,11 @@ button {
 #tempoValue {
   color: #a83fd8;
   font-weight: bold;
+}
+
+#toggleBtn:active {
+  transform: scale(0.95);
+}
+#toggleBtn {
+  transition: transform 0.1s ease;
 }
