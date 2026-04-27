@@ -2,6 +2,7 @@ const audioContext = new AudioContext();
 const beepOsc = new OscillatorNode(audioContext, { frequency: 1000 });
 const adsr = new GainNode(audioContext, { gain: 0 });
 const masterGain = new GainNode(audioContext, { gain: 0.8 });
+let beatCount = 0;
 
 beepOsc.connect(adsr).connect(masterGain).connect(audioContext.destination);
 
@@ -63,9 +64,11 @@ volumeSlider.addEventListener("input", function () {
   volumeValue.textContent = volumeSlider.value + "%";
 
   if (volume > 0) {
+    muteIcon.innerHTML = "&#128266;"; // 🔊
     lastVolume = volume;
     isMuted = false;
   } else {
+    muteIcon.innerHTML = "&#128263;"; // 🔇
     isMuted = true;
   }
 });
@@ -84,19 +87,33 @@ tempoSlider.addEventListener("change", function () {
   }
 });
 
+const soundStyle = document.getElementById("soundStyle");
+
+const sounds = {
+  classic: 1800,
+  beep: 1000,
+  soft: 700,
+  wood: 350,
+};
+
+soundStyle.addEventListener("change", function () {
+  const selectedSound = soundStyle.value;
+  const frequency = sounds[selectedSound];
+
+  beepOsc.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+  console.log("Sound changed to:", selectedSound);
+});
+
 function runMetronome() {
   clearInterval(metronomeInterval);
   secondsPerBeat = 60 / tempoSlider.value;
   nextNoteTime = audioContext.currentTime;
-
-  // animatePendulum();
-  // bob.classList.add("moving");
+  beatCount = 0;
   scheduleBeep();
   metronomeInterval = setInterval(scheduleBeep, secondsPerBeat * 1000);
 }
 
-// const startBtn = document.getElementById("startBtn");
-// const stopBtn = document.getElementById("stopBtn");
 const toggleBtn = document.getElementById("toggleBtn");
 
 toggleBtn.addEventListener("click", function () {
@@ -140,64 +157,40 @@ function stopMetronome() {
 }
 
 function Beep(time) {
-  let now = audioContext.currentTime;
-  adsr.gain.cancelScheduledValues(now);
-  adsr.gain.setValueAtTime(0, now);
-  adsr.gain.linearRampToValueAtTime(1, now + 0.01);
-  adsr.gain.linearRampToValueAtTime(0, now + 0.02);
-  // const osc = audioContext.createOscillator();
-  // osc.type = "square";
-  // osc.frequency.setValueAtTime(1000, time);
-  // osc.connect(audioContext.destination);
-  // osc.start(time);
-  // osc.stop(time + 0.1); // stop after 100ms
+  // let now = audioContext.currentTime;
+  adsr.gain.cancelScheduledValues(time);
+  adsr.gain.setValueAtTime(0, time);
+  adsr.gain.linearRampToValueAtTime(1, time + 0.01);
+  adsr.gain.linearRampToValueAtTime(0, time + 0.02);
+}
+function beatPerMeasure() {
+  const baseFrequency = sounds[soundStyle.value];
+  const accentFrequency = baseFrequency * 1.6;
+  const beatsPerMeasure = Number(
+    document.getElementById("beatsPerMeasure").value,
+  );
+
+  if (beatsPerMeasure === 0) {
+    beepOsc.frequency.setValueAtTime(sounds[soundStyle.value], nextNoteTime);
+    return;
+  }
+
+  if (beatCount % beatsPerMeasure === 0) {
+    beepOsc.frequency.setValueAtTime(accentFrequency, nextNoteTime);
+  } else {
+    beepOsc.frequency.setValueAtTime(baseFrequency, nextNoteTime);
+  }
 }
 
 function scheduleBeep() {
+  beatPerMeasure();
   // Implementation for scheduling beep
   Beep(nextNoteTime);
   flashBob(nextNoteTime);
   moveBob(nextNoteTime);
+  beatCount++;
   nextNoteTime += secondsPerBeat;
 }
-// const tapBtn = document.getElementById("tapBtn");
-
-// tapBtn.addEventListener("click", function () {
-//   console.log("Tap button clicked");
-//   // implement tap tempo functionality here
-//   const currentTime = audioContext.currentTime;
-
-//   if (tapTimes.length > 0 && currentTime - tapTimes[tapTimes.length - 1] > 6) {
-//     tapTimes.length = 0;
-//   }
-
-//   tapTimes.push(currentTime);
-
-//   if (tapTimes.length > 4) {
-//     tapTimes.shift();
-//   }
-
-//   if (tapTimes.length > 1) {
-//     const intervals = [];
-//     for (let i = 1; i < tapTimes.length; i++) {
-//       intervals.push(tapTimes[i] - tapTimes[i - 1]);
-//     }
-//     let sum = 0;
-
-//     for (let i = 0; i < intervals.length; i++) {
-//       sum += intervals[i];
-//     }
-
-//     const averageInterval = sum / intervals.length;
-//     // const averageInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-//     const newTempo = 60 / averageInterval;
-//     tempoSlider.value = newTempo;
-//     tempoValue.textContent = Math.round(newTempo) + " BPM";
-//     if (isPlaying) {
-//       runMetronome();
-//     }
-//   }
-// });
 
 document.body.addEventListener("click", function (event) {
   // ignore clicks on controls
@@ -206,12 +199,16 @@ document.body.addEventListener("click", function (event) {
     event.target.closest("#tempo") ||
     event.target.closest("#volume") ||
     event.target.closest("label") ||
-    event.target.closest("#muteIcon")
+    event.target.closest("#muteIcon") ||
+    event.target.closest("control") ||
+    event.target.closest("#soundStyle") ||
+    event.target.closest("select")
   ) {
     return;
   }
 
   console.log("Background tapped");
+  flashTapArea();
 
   const currentTime = audioContext.currentTime;
 
@@ -256,7 +253,8 @@ const bob = document.getElementById("bob");
 // }
 function moveBob(time) {
   const delay = Math.max(0, (time - audioContext.currentTime) * 1000);
-  const distance = 252;
+  const distance =
+    document.querySelector(".wire").offsetWidth - bob.offsetWidth;
 
   setTimeout(() => {
     bob.style.transitionDuration = secondsPerBeat + "s";
@@ -281,4 +279,17 @@ function flashBob(time) {
       bob.classList.remove("flash");
     }, 100);
   }, delay);
+}
+
+function flashTapArea() {
+  const app = document.querySelector(".app");
+
+  app.classList.remove("tap-flash");
+  void app.offsetWidth; // force reflow
+
+  app.classList.add("tap-flash");
+
+  setTimeout(function () {
+    app.classList.remove("tap-flash");
+  }, 80);
 }

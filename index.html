@@ -1,5 +1,7 @@
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Metronome App Starter</title>
     <link rel="stylesheet" href="static/css/styles.css" />
   </head>
@@ -20,47 +22,37 @@
           >
           <input id="tempo" type="range" min="10" max="300" value="120" />
         </div>
-
-        <!-- <div class="control">
-          <label for="beatsPerMeasure">Beats per measure</label>
-          <select id="beatsPerMeasure">
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4" selected>4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-          </select>
-        </div> -->
-
-        <!-- <div class="control">
-          <label for="subdivision">Subdivision</label>
-          <select id="subdivision">
-            <option value="1">Quarter notes</option>
-            <option value="2">Eighth notes</option>
-            <option value="3">Triplets</option>
-            <option value="4">Sixteenth notes</option>
-          </select>
-        </div> -->
-
-        <!-- <div class="control">
-          <label for="accentFirstBeat">Accent pattern</label>
-          <select id="accentFirstBeat">
-            <option value="first" selected>Accent first beat</option>
-            <option value="all">All equal</option>
-          </select>
-        </div> -->
       </section>
 
-      <div class="control">
+      <div class="control volume-control">
         <span id="muteIcon" class="speaker-icon">&#128266;</span>
         <label for="volume">
           <span class="value" id="volumeValue">80%</span>
         </label>
-
         <input id="volume" type="range" min="0" max="100" value="80" />
       </div>
 
+      <div class="control">
+        <label for="soundStyle">Sound Style</label>
+        <select id="soundStyle">
+          <option value="classic">Classic Click</option>
+          <option value="beep" selected>Electronic Beep</option>
+          <option value="soft">Soft Tick</option>
+          <option value="wood">Wood Block</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="beatsPerMeasure">Beats per measure</label>
+        <select id="beatsPerMeasure">
+          <option value="0" selected>No meter</option>
+          <option value="2">2/4</option>
+          <option value="3">3/4</option>
+          <option value="4">4/4</option>
+          <option value="5">5/4</option>
+          <option value="6">6/8</option>
+          <option value="7">7/8</option>
+        </select>
+      </div>
       <section class="buttons">
         <button id="toggleBtn">Start</button>
       </section>
