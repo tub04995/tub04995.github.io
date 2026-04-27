@@ -75,7 +75,7 @@ volumeSlider.addEventListener("input", function () {
 
 // 1. Update ONLY the text while dragging (no audio restart)
 tempoSlider.addEventListener("input", function () {
-  tempoValue.textContent = tempoSlider.value + " BPM";
+  tempoValue.textContent = tempoSlider.value;
 });
 
 // secondsPerBeat = 60 / tempoSlider.value;
@@ -238,7 +238,7 @@ document.body.addEventListener("click", function (event) {
     const newTempo = 60 / averageInterval;
 
     tempoSlider.value = Math.round(newTempo);
-    tempoValue.textContent = Math.round(newTempo) + " BPM";
+    tempoValue.textContent = Math.round(newTempo);
 
     if (isPlaying) {
       runMetronome();
@@ -248,9 +248,6 @@ document.body.addEventListener("click", function (event) {
 
 const bob = document.getElementById("bob");
 
-// function animatePendulum() {
-//   bob.style.animationDuration = secondsPerBeat + "s";
-// }
 function moveBob(time) {
   const delay = Math.max(0, (time - audioContext.currentTime) * 1000);
   const distance =

@@ -10,15 +10,16 @@
       <h1>Metronome App</h1>
 
       <section class="grid">
-        <div class="pendulum-area">
+        <!-- <div class="pendulum-area">
           <div class="wire">
             <div class="bob" id="bob"></div>
           </div>
-        </div>
+        </div> -->
 
         <div class="control">
           <label for="tempo"
-            >Tempo <span class="value" id="tempoValue">120 BPM</span></label
+            >Tempo <span class="value" id="tempoValue">120 </span>
+            <span class="unit">BPM</span></label
           >
           <input id="tempo" type="range" min="10" max="300" value="120" />
         </div>
@@ -54,6 +55,11 @@
         </select>
       </div>
       <section class="buttons">
+        <div class="pendulum-area">
+          <div class="wire">
+            <div class="bob" id="bob"></div>
+          </div>
+        </div>
         <button id="toggleBtn">Start</button>
       </section>
 
