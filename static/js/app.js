@@ -202,7 +202,11 @@ document.body.addEventListener("click", function (event) {
     event.target.closest("#muteIcon") ||
     event.target.closest("control") ||
     event.target.closest("#soundStyle") ||
-    event.target.closest("select")
+    event.target.closest("select") ||
+    event.target.closest("helpBtn") ||
+    event.target.closest("#helpModal") ||
+    event.target.closest("#closeHelp") ||
+    event.target.closest("#beatsPerMeasure")
   ) {
     return;
   }
