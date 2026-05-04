@@ -290,3 +290,22 @@ function flashTapArea() {
     app.classList.remove("tap-flash");
   }, 80);
 }
+
+const helpBtn = document.getElementById("helpBtn");
+const helpModal = document.getElementById("helpModal");
+const closeHelp = document.getElementById("closeHelp");
+
+helpBtn.addEventListener("click", function (event) {
+  event.stopPropagation();
+  helpModal.classList.remove("hidden");
+});
+
+closeHelp.addEventListener("click", function () {
+  helpModal.classList.add("hidden");
+});
+
+helpModal.addEventListener("click", function (event) {
+  if (event.target === helpModal) {
+    helpModal.classList.add("hidden");
+  }
+});

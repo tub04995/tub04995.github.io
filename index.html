@@ -2,20 +2,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Metronome App Starter</title>
+    <title>Interactive Web Audio Metronome</title>
     <link rel="stylesheet" href="static/css/styles.css" />
   </head>
   <body>
     <main class="app">
       <h1>Metronome App</h1>
+      <button id="helpBtn" class="help-btn">ℹ</button>
+      <div id="helpModal" class="help-modal hidden">
+        <div class="help-box">
+          <button id="closeHelp" class="close-help">×</button>
+          <h2>How to use</h2>
+          <p>Tap anywhere outside the circle to set the tempo.</p>
+          <p>Use the slider to adjust BPM manually.</p>
+          <p>
+            Choose a sound style and beats per measure for different practice
+            needs.
+          </p>
+          <p>Use the speaker icon to mute or adjust volume.</p>
+        </div>
+      </div>
 
       <section class="grid">
-        <!-- <div class="pendulum-area">
-          <div class="wire">
-            <div class="bob" id="bob"></div>
-          </div>
-        </div> -->
-
         <div class="control">
           <label for="tempo"
             >Tempo <span class="value" id="tempoValue">120 </span>
